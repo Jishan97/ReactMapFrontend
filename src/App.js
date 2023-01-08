@@ -10,7 +10,7 @@ import Map from "./components/pages/Map";
 import Report from "./components/pages/Reports";
 import Users from "./components/pages/Users";
 import PrivateRoute from "./routes/PrivateRoute";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 const App = () => {
   return (
     <Routes>

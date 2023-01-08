@@ -15,17 +15,24 @@ import { Button, Container, FormGroup, Input, Label } from 'reactstrap';
 
 import Search from '../ui/Search';
 import { useNavigate } from 'react-router-dom';
-import { getAllClinics } from '../../redux/action/userActions';
+import { addBooking, getAllClinics } from '../../redux/action/userActions';
 
 
 const Map = (props) => {
     const user = useSelector((state) => state.user);
 
-    const { clinics } = user;
+    const { clinics, userId } = user;
   const navigate = useNavigate();
 
   useEffect(()=>{
     props.dispatch(getAllClinics())
+    
+    navigator.geolocation.getCurrentPosition(function(position) {
+      setLat(position.coords.latitude)
+      setLng(position.coords.longitude)
+
+    });
+
   },[])
 
   const libraries = ['places'];
@@ -40,7 +47,7 @@ const Map = (props) => {
   const [lat, setLat] = useState(51);
   const [lng, setLng] = useState(0.0737874);
 
-  const [Lname, setLname] = useState(null);
+  const [dateSelected, setDateSelected] = useState(null);
   const [Ltitle, setLtitle] = useState(null);
 
 
@@ -93,36 +100,30 @@ const Map = (props) => {
   if (!isLoaded) return "Loading Maps";
 
 
-  const handleInputName = (e) => {
+  const handleDateInput = (e) => {
     console.log(e.target.value)
-    setLname(e.target.value)
-  }
-
-  const handleInputTitle = (e) => {
-    setLtitle(e.target.value)
-    console.log(e.target.value)
+    setDateSelected(e.target.value)
   }
 
 
-  const doSomething = (lat, lng) => {
+
+  const doSomething = (id) => {
     //name - title
     // title - description
-    console.log(lat, lng)
-    console.log(Lname, Ltitle);
+    console.log(id)
+
     const currentD = new Date();
     console.log(currentD.toISOString())
 
-
     let data = {
-      title: Lname,
-      description: Ltitle,
-      travelDate: currentD.toISOString(),
-      lat: lat,
-      lng: lng
+      userId: userId,
+      date:dateSelected
     }
 
+    props.dispatch(addBooking(data,id))
+
     // addTravelList(data);
-    navigate('/', { replace: true })
+    navigate('/bookings', { replace: true })
 
   }
 
@@ -168,22 +169,16 @@ const Map = (props) => {
             setSelected(null)
           }} >
             <Container>
-              <p>Hello, you have selected the location</p>
-              <p>Please add details so that other travelers can join you</p>
+              <p>Clinic ID - {selected._id}</p>
+              <p>Welcome to {selected.name}</p>
 
               <FormGroup>
-                <Label> Add Title</Label>
-                <Input onChange={handleInputName} value={Lname} type="text" />
+                <Label> Select Date </Label>
+                <Input  placeholder='Date Format dd-mm-yyyy' nChange={handleDateInput} value={dateSelected} type="text" />
 
               </FormGroup>
               <FormGroup>
-                <Label>  Add Description</Label>
-                <Input onChange={handleInputTitle} value={Ltitle} type="text" />
-
-              </FormGroup>
-
-              <FormGroup>
-                <Button onClick={() => doSomething(selected.lat, selected.lng)} type='submit'> Add market</Button>
+                <Button onClick={() => doSomething(selected._id)} type='submit'> Add Booking</Button>
 
 
               </FormGroup>

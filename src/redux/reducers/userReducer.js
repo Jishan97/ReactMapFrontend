@@ -6,9 +6,12 @@ const userInitialState = {
   isLoggedIn: localStorage.getItem('token') ? true : false,
   name: localStorage.getItem('name'),
   email: localStorage.getItem('email'),
+  userId:localStorage.getItem('userId'),
   error: "",
   clinics:[],
-  allUsers:[]
+  allUsers:[],
+  bookingByUser:[],
+  allReports:[]
 
 };
 
@@ -17,12 +20,17 @@ const userReducer = (state = userInitialState, action) => {
     case UserConstant.SET_USER: {
       
       localStorage.setItem('name', action.payload.name);
-      localStorage.setItem('email', action.payload.email)
+      localStorage.setItem('email', action.payload.email);
+      localStorage.setItem('userId', action.payload._id);
+
+
+
       return {
         ...state,
         token: action.payload.token,
-        name: action.payload.data.user.name,
-        email: action.payload.data.user.email,
+        name: action.payload.name,
+        email: action.payload.email,
+        userId:action.payload._id,
         isLoggedIn: true,
         loading: false
       }
@@ -50,6 +58,22 @@ const userReducer = (state = userInitialState, action) => {
         loading: false
 
       };
+    }
+
+    case UserConstant.GET_ALL_REPORTS: {
+      return {
+        ...state,
+        allReports:action.payload,
+        loading: false
+
+      };
+    }
+
+    case UserConstant.GET_BOOKING_USER:{
+      return {
+        ...state,
+        bookingByUser:action.payload
+      }
     }
 
     case UserConstant.GET_ALL_USERS: {

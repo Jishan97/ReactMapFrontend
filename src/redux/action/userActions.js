@@ -31,15 +31,16 @@ export const startLoginUser = (formData, redirect, errorRedirect) => {
       console.log(res.data)
       console.log(finalToken)
 
-      if (res) {
+      dispatch({
+        type: UserConstant.SET_USER,
+        payload: res.data.allDetails
+      })
         console.log('//////')
-        redirect();
         localStorage.setItem("token", finalToken);
-        dispatch({
-          type: UserConstant.SET_USER,
-          payload: res.data.allDetails
-        })
-      }
+        // dispatch(getBookingByuser())
+        redirect();
+        
+      
     } catch (error) {
       if (error.response) {
         dispatch({
@@ -114,7 +115,99 @@ export const getAllUsers = (formData, redirect, errorRedirect) => {
 };
 
 
+export const getBookingByuser = (id, redirect, errorRedirect) => {
 
+  return async (dispatch) => {
+    dispatch(setLoading())
+    try {
+      let res = await axios.get(`/api/users/bookingByUser/${id}`);
+
+      console.log(res.data)
+      if (res) {
+        
+        dispatch({
+          type: UserConstant.GET_BOOKING_USER,
+          payload: res.data
+        })
+        redirect();
+      }
+    } catch (error) {
+      if (error.response) {
+        dispatch({
+          type: UserConstant.SET_LOADING,
+          payload: false
+        })
+        errorRedirect(error.response);
+        // toast.warn(error.response.data.message, { position: "top-center" });
+        console.log("error", error.response);
+    }
+    }
+  };
+};
+
+
+// export const getBookingByuser = () => {
+
+//   return async (dispatch) => {
+//     dispatch(setLoading())
+//     try {
+//       let res = await axios.get("/api/users/current");
+
+//       console.log(res.data)
+//       if (res) {
+        
+//         dispatch({
+//           type: UserConstant.GET_BOOKING_USER,
+//           payload: res.data
+//         })
+//         // redirect();
+//       }
+//     } catch (error) {
+//       if (error.response) {
+//         dispatch({
+//           type: UserConstant.SET_LOADING,
+//           payload: false
+//         })
+//         // errorRedirect(error.response);
+//         // toast.warn(error.response.data.message, { position: "top-center" });
+//         console.log("error", error.response);
+//     }
+//     }
+//   };
+// };
+
+
+
+
+export const getAllReports = (redirect, errorRedirect) => {
+
+  return async (dispatch) => {
+    dispatch(setLoading())
+    try {
+      let res = await axios.get("/api/users/allReports");
+
+      console.log(res.data)
+      if (res) {
+        
+        dispatch({
+          type: UserConstant.GET_ALL_REPORTS,
+          payload: res.data
+        })
+        redirect();
+      }
+    } catch (error) {
+      if (error.response) {
+        dispatch({
+          type: UserConstant.SET_LOADING,
+          payload: false
+        })
+        errorRedirect(error.response);
+        // toast.warn(error.response.data.message, { position: "top-center" });
+        console.log("error", error.response);
+    }
+    }
+  };
+};
 
 export const addClinic = (formData, redirect, errorRedirect) => {
   return async (dispatch) => {
@@ -169,8 +262,43 @@ export const addStaff = (formData, id, redirect, errorRedirect) => {
           "Content-Type": "application/json",
         }
       );
-  
-    
+      console.log(res.data)
+
+      if (res) {
+        console.log('//////')
+        dispatch({
+          type: UserConstant.ADD_STAFF
+        })
+
+        dispatch(getAllClinics())
+        redirect();
+      }
+    } catch (error) {
+      if (error.response) {
+        dispatch({
+          type: UserConstant.SET_LOADING,
+          payload: false
+        })
+        errorRedirect(error.response);
+        // toast.warn(error.response.data.message, { position: "top-center" });
+        console.log("error", error.response);
+    }
+    }
+  };
+};
+
+export const addBooking = (formData, id, redirect, errorRedirect) => {
+  return async (dispatch) => {
+    dispatch(setLoading())
+    try {
+      let res = await axios.put(
+        `/api/users/makeBooking/${id}`,
+        formData,
+        {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }
+      );
       console.log(res.data)
 
       if (res) {

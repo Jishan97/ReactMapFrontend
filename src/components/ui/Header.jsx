@@ -14,7 +14,7 @@ const Header = (props) => {
     //clear local storage 
     localStorage.clear('token')
     // redirect to login page
-    navigate("/");
+    navigate("/login");
 
   }
   return (
@@ -24,6 +24,7 @@ const Header = (props) => {
         elevation={4}
         style={{
           // position: "fixed",
+          height:'4rem',
           top: 0,
           left: 0,
           margin: 0,
