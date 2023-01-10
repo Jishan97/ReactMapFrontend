@@ -31,7 +31,7 @@ const LoginComponent = (props) => {
 
   useEffect(() => {
 
-    if (isLoggedIn) {
+    if (localStorage.getItem('token')) {
       navigate('/home')
     }
   }, [])

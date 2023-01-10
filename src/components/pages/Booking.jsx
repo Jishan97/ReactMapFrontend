@@ -11,7 +11,7 @@ const Booking = (props)=>{
     const { clinics, userId, bookingByUser } = user;
 
     useEffect(()=>{
-        props.dispatch(getBookingByuser())
+        props.dispatch(getBookingByuser(userId))
         
     },[])
 

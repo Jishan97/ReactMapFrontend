@@ -14,7 +14,7 @@ const PrivateRoute = ({
     // console.log('<<<<<<<< private route 1>>>>>>>>');
     return (
         <>
-          <Header title={'Blood test center'}/>
+          <Header/>
           <Component/>
         </>
       )

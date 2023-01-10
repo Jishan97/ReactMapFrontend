@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import Spinner from "./Spinner";
 
 const Header = (props) => {
+  const user = useSelector((state) => state.user);
+
+  const { clinics, userId, name, email, bookingByUser, level } = user;
   let navigate = useNavigate();
 
 
@@ -36,7 +39,7 @@ const Header = (props) => {
 
           <Link to="/home" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
           <Typography  sx={{ flexGrow: 1, fontSize:{xs:'0.7rem',sm:'0.8rem', md:'0.9rem', lg:'1.2rem' } }}>
-            {props.title}
+            Blood Test Center
           </Typography>
           </Link>
 
@@ -47,12 +50,14 @@ const Header = (props) => {
           </Typography>
           </Link>
 
-
+{
+    level > 1 &&
           <Link to="/clinics" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
           <Typography  sx={{ flexGrow: 1, fontSize:{xs:'0.7rem',sm:'0.8rem', md:'0.9rem', lg:'1.2rem' } }}>
               Clinics
           </Typography>
           </Link>
+}
 
           <Link to="/bookings" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
           <Typography  sx={{ flexGrow: 1, fontSize:{xs:'0.7rem',sm:'0.8rem', md:'0.9rem', lg:'1.2rem' } }}>
@@ -60,17 +65,23 @@ const Header = (props) => {
           </Typography>
           </Link>
 
+{
+level > 1 &&
           <Link to="/users" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
           <Typography  sx={{ flexGrow: 1, fontSize:{xs:'0.7rem',sm:'0.8rem', md:'0.9rem', lg:'1.2rem' } }}>
               Users
           </Typography>
           </Link>
+}
           
-          <Link to="/reports" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
+          {
+level > 1 &&
+            <Link to="/reports" style={{textDecoration:'none', color:'white',margin:'1rem'}}>
           <Typography  sx={{ flexGrow: 1, fontSize:{xs:'0.7rem',sm:'0.8rem', md:'0.9rem', lg:'1.2rem' } }}>
               Reports
           </Typography>
           </Link>
+          }
 
           </Box>
           

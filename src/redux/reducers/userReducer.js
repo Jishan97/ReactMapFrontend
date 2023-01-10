@@ -7,6 +7,7 @@ const userInitialState = {
   name: localStorage.getItem('name'),
   email: localStorage.getItem('email'),
   userId:localStorage.getItem('userId'),
+  level:localStorage.getItem('level'),
   error: "",
   clinics:[],
   allUsers:[],
@@ -22,6 +23,7 @@ const userReducer = (state = userInitialState, action) => {
       localStorage.setItem('name', action.payload.name);
       localStorage.setItem('email', action.payload.email);
       localStorage.setItem('userId', action.payload._id);
+      localStorage.setItem('level', action.payload.level);
 
 
 
@@ -31,6 +33,7 @@ const userReducer = (state = userInitialState, action) => {
         name: action.payload.name,
         email: action.payload.email,
         userId:action.payload._id,
+        level:action.payload.level,
         isLoggedIn: true,
         loading: false
       }

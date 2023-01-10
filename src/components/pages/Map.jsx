@@ -115,6 +115,7 @@ const Map = (props) => {
     const currentD = new Date();
     console.log(currentD.toISOString())
 
+
     let data = {
       userId: userId,
       date:dateSelected
@@ -174,7 +175,7 @@ const Map = (props) => {
 
               <FormGroup>
                 <Label> Select Date </Label>
-                <Input  placeholder='Date Format dd-mm-yyyy' nChange={handleDateInput} value={dateSelected} type="text" />
+                <Input  placeholder='Date Format dd-mm-yyyy' onChange={handleDateInput} value={dateSelected} type="text" />
 
               </FormGroup>
               <FormGroup>
